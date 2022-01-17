@@ -1,3 +1,4 @@
+import com.sun.tools.doclets.formats.html.ProfileWriterImpl;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -5,10 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -79,7 +77,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -99,7 +97,24 @@ public class JobData {
         loadData();
 
         // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (int i = 0; allJobs.size() > i; i++) {
+            HashMap<String, String> rows = allJobs.get(i);
+            for (Map.Entry<String, String> row : rows.entrySet()) {
+                String aValue = row.getValue();
+
+                if (aValue.toLowerCase().contains(value.toLowerCase())){
+                     if(!jobs.contains(row)) {
+                     jobs.add(rows);
+                     }
+                }
+
+            }
+        }
+
+        return jobs;
+
     }
 
     /**
@@ -142,5 +157,8 @@ public class JobData {
             e.printStackTrace();
         }
     }
+
+
+
 
 }
